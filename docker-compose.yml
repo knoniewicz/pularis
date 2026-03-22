@@ -1,0 +1,18 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  pularis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    environment:
+      REDIS_ADDR: redis:6379
+      CONFIGS_DIR: /app/configs
+    volumes:
+      - ./examples/configs:/app/configs:ro

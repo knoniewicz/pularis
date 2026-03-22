@@ -1,0 +1,27 @@
+name = "example_source"
+type = "api"
+endpoint = "https://api.example.com/status"
+poll_interval_seconds = 15
+auth_file = "example-source"
+
+[headers]
+Authorization = "Bearer {token}"
+X-Client-ID = "{client_id}"
+
+[[events]]
+name = "activity"
+is_session = true
+on_changed_fields = ["state", "user_id"]
+publish_when = "state != ''"
+
+[events.transform]
+user_id = "data.user.id"
+state = "data.session.state"
+title = "data.session.title"
+
+[[events]]
+name = "viewer_count"
+publish_when = "viewers > 0"
+
+[events.transform]
+viewers = "data.metrics.viewers"

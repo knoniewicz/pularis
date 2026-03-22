@@ -1,0 +1,5 @@
+core/configs/
+*.auth.json
+*.log
+dist/
+bin/
